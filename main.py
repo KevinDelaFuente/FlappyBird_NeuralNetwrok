@@ -1,6 +1,6 @@
 import pygame
 from definitions import *
-from pipe import Pipe
+from pipe import PipeCollection
 
 def update_label(data, title, font, x, y, gameDisplay):
     label = font.render('{} {}'.format(title, data), 1, DATA_FONT_COLOR)
@@ -22,12 +22,12 @@ def run_game():
     running = True
     bgImg = pygame.image.load(BG_FILENAME)
     label_font = pygame.font.SysFont("monospace", DATA_FONT_SIZE)
+    pipes = PipeCollection(gameDisplay)
+    pipes.create_new_set()
 
     clock = pygame.time.Clock()
     dt = 0
     game_time = 0
-
-    pp = Pipe(gameDisplay, DISPLAY_W, 300, PIPE_LOWER)
 
     while running:
         dt = clock.tick(FPS)
@@ -42,7 +42,7 @@ def run_game():
                 running = False
 
         update_data_labels(gameDisplay, dt, game_time, label_font)
-        pp.update(dt)
+        pipes.update(dt)
         pygame.display.update()
 
 if __name__ == "__main__":

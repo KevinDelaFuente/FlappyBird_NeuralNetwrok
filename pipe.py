@@ -1,4 +1,4 @@
-from xmlrpc.server import DocXMLRPCRequestHandler
+from tkinter import VERTICAL
 import pygame
 import random
 from definitions import *
@@ -10,6 +10,8 @@ class Pipe():
         self.pipe_type = pipe_type
         self.img = pygame.image.load(PIPE_FILENAME)
         self.rect = self.img.get_rect()
+        if pipe_type == PIPE_UPPER:
+            y = y - self.rect.height
         self.set_position(x,y)
         print("Pipe Moving")
 
@@ -34,3 +36,42 @@ class Pipe():
             self.move_position(-PIPE_SPEED*dt,0)
             self.draw()
             self.check_status()
+
+class PipeCollection():
+
+    def __init__(self, gameDisplay):
+        self.gameDisplay = gameDisplay
+        self.pipes = []
+
+    def add_new_pipe_pair(self, x):
+        top_y = random.randint(PIPE_MIN, PIPE_MAX-VERTICAL_GAP)
+        bottom_y = VERTICAL_GAP + top_y
+
+        p1 = Pipe(self.gameDisplay, x, top_y, PIPE_UPPER)
+        p2 = Pipe(self.gameDisplay, x, bottom_y, PIPE_LOWER)
+
+        self.pipes.append(p1)
+        self.pipes.append(p2)
+
+    def create_new_set(self):
+        self.pipes = []
+        placed = FIRST_PIPE
+
+        while placed < DISPLAY_W:
+            self.add_new_pipe_pair(placed)
+            placed += HORIZONTAL_GAP
+
+
+    def update(self, dt):
+        rightmost = 0
+
+        for p in self.pipes:
+            p.update(dt)
+            if p.pipe_type == PIPE_UPPER:
+                if p.rect.left > rightmost:
+                    rightmost = p.rect.left
+
+        if rightmost < (DISPLAY_W - HORIZONTAL_GAP):
+            self.add_new_pipe_pair(DISPLAY_W)
+
+        self.pipes = [p for p in self.pipes if p.state == PIPE_MOVING]
