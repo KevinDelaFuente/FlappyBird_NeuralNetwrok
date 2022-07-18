@@ -27,16 +27,24 @@ class Bird():
         self.rect.centery += distance
         self.speed = new_speed
 
+        if self.rect.top < 0:
+            self.rect.top = 0
+            self.speed = 0
+
+    def jump(self):
+        self.speed = BIRD_START_SPEED
+
     def draw(self):
         self.gameDisplay.blit(self.img, self.rect)
 
     def check_status(self):
-        if self.rect.right < 0:
+        if self.rect.bottom > DISPLAY_H:
             self.state = BIRD_DEAD
             print("Bird Dead")
 
     def update(self, dt):
         if self.state == BIRD_ALIVE:
+            self.time_lived += dt
             self.move(dt)
             self.draw()
             self.check_status()

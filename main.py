@@ -41,7 +41,10 @@ def run_game():
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.KEYDOWN:
-                running = False
+                if event.key == pygame.K_SPACE:
+                    robin.jump()
+                else:
+                    running = False
 
         update_data_labels(gameDisplay, dt, game_time, label_font)
         pipes.update(dt)
