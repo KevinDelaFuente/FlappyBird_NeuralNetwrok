@@ -1,6 +1,7 @@
 import pygame
 from definitions import *
 from pipe import PipeCollection
+from bird import Bird
 
 def update_label(data, title, font, x, y, gameDisplay):
     label = font.render('{} {}'.format(title, data), 1, DATA_FONT_COLOR)
@@ -24,7 +25,7 @@ def run_game():
     label_font = pygame.font.SysFont("monospace", DATA_FONT_SIZE)
     pipes = PipeCollection(gameDisplay)
     pipes.create_new_set()
-    robin = Bird()
+    robin = Bird(gameDisplay,100,100)
 
     clock = pygame.time.Clock()
     dt = 0
@@ -44,6 +45,7 @@ def run_game():
 
         update_data_labels(gameDisplay, dt, game_time, label_font)
         pipes.update(dt)
+        robin.update(dt)
         pygame.display.update()
 
 if __name__ == "__main__":
