@@ -25,7 +25,7 @@ def run_game():
     label_font = pygame.font.SysFont("monospace", DATA_FONT_SIZE)
     pipes = PipeCollection(gameDisplay)
     pipes.create_new_set()
-    robin = Bird(gameDisplay,100,100)
+    robin = Bird(gameDisplay)
 
     clock = pygame.time.Clock()
     dt = 0
