@@ -37,14 +37,21 @@ class Bird():
     def draw(self):
         self.gameDisplay.blit(self.img, self.rect)
 
-    def check_status(self):
+    def check_status(self, pipes):
         if self.rect.bottom > DISPLAY_H:
             self.state = BIRD_DEAD
-            print("Bird Dead")
+        else:
+            self.check_hits(pipes) 
 
-    def update(self, dt):
+    def check_hits(self, pipes):
+        for p in pipes:
+            if p.rect.colliderect(self.rect):
+                self.state = BIRD_DEAD
+                break
+
+    def update(self, dt, pipes):
         if self.state == BIRD_ALIVE:
             self.time_lived += dt
             self.move(dt)
             self.draw()
-            self.check_status()
+            self.check_status(pipes)
