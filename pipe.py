@@ -1,4 +1,3 @@
-from tkinter import VERTICAL
 import pygame
 import random
 from definitions import *
