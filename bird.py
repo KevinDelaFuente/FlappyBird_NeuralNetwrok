@@ -11,7 +11,7 @@ class Bird():
         self.set_position(BIRD_START_X,BIRD_START_Y)
         self.speed = 0
         self.time_lived = 0
-        print("Bird Moving")
+        print("New bird")
 
     def set_position(self, x, y):
         self.rect.left =  x
@@ -40,6 +40,7 @@ class Bird():
     def check_status(self, pipes):
         if self.rect.bottom > DISPLAY_H:
             self.state = BIRD_DEAD
+            print(self.time_lived)
         else:
             self.check_hits(pipes) 
 
@@ -47,6 +48,7 @@ class Bird():
         for p in pipes:
             if p.rect.colliderect(self.rect):
                 self.state = BIRD_DEAD
+                print(self.time_lived)
                 break
 
     def update(self, dt, pipes):

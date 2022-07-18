@@ -12,7 +12,6 @@ class Pipe():
         if pipe_type == PIPE_UPPER:
             y = y - self.rect.height
         self.set_position(x,y)
-        print("Pipe Moving")
 
     def set_position(self, x, y):
         self.rect.left =  x
@@ -28,7 +27,6 @@ class Pipe():
     def check_status(self):
         if self.rect.right < 0:
             self.state = PIPE_DONE
-            print("Pipe Done")
 
     def update(self, dt):
         if self.state == PIPE_MOVING:
