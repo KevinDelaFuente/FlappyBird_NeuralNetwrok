@@ -57,3 +57,25 @@ class Bird():
             self.move(dt)
             self.draw()
             self.check_status(pipes)
+
+class BirdCollection():
+
+    def __init__(self, gameDisplay):
+        self.gameDisplay = gameDisplay
+        self.birds = []
+        self.create_new_generation()
+
+    def create_new_generation(self):
+        self.birds = []
+        for i in range(0,GENERATION_SIZE):
+            self.birds.append(Bird(self.gameDisplay))
+
+    def update(self, dt, pipes):
+        num_alive = 0
+        for j in self.birds:
+            if random.randint(0,4) == 1:
+                j.jump()
+            j.update(dt, pipes)
+            if j.state == BIRD_ALIVE:
+                num_alive += 1
+        return num_alive
