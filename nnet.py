@@ -7,8 +7,8 @@ class Nnet:
         self.num_input = num_input
         self.num_hidden = num_hidden
         self.num_output = num_output
-        self.weight_input_hidden = np.random(-.5,.5, size = (self.num_hidden, self.num_input))
-        self.weight_hidden_output = np.random(-.5,.5, size = (self.num_output, self.num_hidden))
+        self.weight_input_hidden = np.random.uniform(-.5,.5, size = (self.num_hidden, self.num_input))
+        self.weight_hidden_output = np.random.uniform(-.5,.5, size = (self.num_output, self.num_hidden))
         self.activation_function = lambda x: scipy.special.expit(x)
 
     def get_outputs(self, inputs_list):
@@ -28,3 +28,14 @@ class Nnet:
         outputs = self.get_outputs(inputs_list)
         return np.max(outputs)
 
+def tests():
+    nnet = Nnet(2,5,1)
+    print('weight_input_hidden', nnet.weight_input_hidden, sep= '\n')
+    print('weight_hidden_output', nnet.weight_hidden_output, sep= '\n')
+
+    inputs = [.2,.6]
+    output = nnet.get_max_value(inputs)
+    print('output', output, sep = '\n')
+
+if __name__ == "__main__":
+    tests()
