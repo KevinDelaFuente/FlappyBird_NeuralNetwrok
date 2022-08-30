@@ -1,6 +1,7 @@
 import pygame
 import random
 from definitions import *
+from nnet import Nnet
 
 class Bird():
     def __init__(self, gameDisplay):
@@ -11,6 +12,7 @@ class Bird():
         self.set_position(BIRD_START_X,BIRD_START_Y)
         self.speed = 0
         self.time_lived = 0
+        self.nnet = Nnet(NNET_INPUTS, NNET_HIDDEN, NNET_OUTPUTS)
         print("New bird")
 
     def set_position(self, x, y):
@@ -58,6 +60,24 @@ class Bird():
             self.draw()
             self.check_status(pipes)
 
+    def get_inputs(self, pipes):
+        closest = DISPLAY_W * 2 
+        bottom_y = 0  
+
+        for p in pipes:
+            if p.pipe_type == PIPE_UPPER and p.rect.right < closest and p.rect.right > self.rect.left:
+                closest = p.rect.right
+                bottom_y = p.rect.bottom
+
+        horizontal_distance = closest - self.rect.centerx
+        vertical_distance = (self.rect.centery) - (bottom_y + VERTICAL_GAP / 2)
+
+        inputs = [
+            (horizontal_distance / closest),
+            ((vertical_distance + Y_SHIFT)/ NORMALIZER)
+        ]
+
+        return inputs
 class BirdCollection():
 
     def __init__(self, gameDisplay):
