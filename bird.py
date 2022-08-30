@@ -13,7 +13,7 @@ class Bird():
         self.speed = 0
         self.time_lived = 0
         self.nnet = Nnet(NNET_INPUTS, NNET_HIDDEN, NNET_OUTPUTS)
-        print("New bird")
+        # print("New bird")
 
     def set_position(self, x, y):
         self.rect.left =  x
@@ -33,8 +33,11 @@ class Bird():
             self.rect.top = 0
             self.speed = 0
 
-    def jump(self):
-        self.speed = BIRD_START_SPEED
+    def jump(self, pipes):
+        inputs = self.get_inputs(pipes)
+        val = self.nnet.get_max_value(inputs)
+        if val > JUMP_CHANCE:
+            self.speed = BIRD_START_SPEED
 
     def draw(self):
         self.gameDisplay.blit(self.img, self.rect)
@@ -42,7 +45,7 @@ class Bird():
     def check_status(self, pipes):
         if self.rect.bottom > DISPLAY_H:
             self.state = BIRD_DEAD
-            print(self.time_lived)
+            # print(self.time_lived)
         else:
             self.check_hits(pipes) 
 
@@ -50,13 +53,14 @@ class Bird():
         for p in pipes:
             if p.rect.colliderect(self.rect):
                 self.state = BIRD_DEAD
-                print(self.time_lived)
+                # print(self.time_lived)
                 break
 
     def update(self, dt, pipes):
         if self.state == BIRD_ALIVE:
             self.time_lived += dt
             self.move(dt)
+            self.jump(pipes)
             self.draw()
             self.check_status(pipes)
 
@@ -78,6 +82,8 @@ class Bird():
         ]
 
         return inputs
+
+
 class BirdCollection():
 
     def __init__(self, gameDisplay):
@@ -93,8 +99,6 @@ class BirdCollection():
     def update(self, dt, pipes):
         num_alive = 0
         for j in self.birds:
-            if random.randint(0,4) == 1:
-                j.jump()
             j.update(dt, pipes)
             if j.state == BIRD_ALIVE:
                 num_alive += 1
