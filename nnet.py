@@ -27,7 +27,7 @@ class Nnet:
     def get_max_value(self, inputs_list):
         outputs = self.get_outputs(inputs_list)
         return np.max(outputs)
-
+        
 def tests():
     nnet = Nnet(2,5,1)
     print('weight_input_hidden', nnet.weight_input_hidden, sep= '\n')
