@@ -1,7 +1,4 @@
 from asyncore import readwrite
-from math import fabs
-from pickle import FALSE
-from re import I
 import numpy as np
 import scipy.special
 import random
