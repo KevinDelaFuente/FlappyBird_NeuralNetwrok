@@ -1,5 +1,11 @@
+from asyncore import readwrite
+from math import fabs
+from pickle import FALSE
+from re import I
 import numpy as np
 import scipy.special
+import random
+from definitions import *
 
 class Nnet:
 
@@ -28,6 +34,41 @@ class Nnet:
         outputs = self.get_outputs(inputs_list)
         return np.max(outputs)
         
+    def modify_weights(self):
+        Nnet.modify_array(self.weight_input_hidden)
+        Nnet.modify_array(self.weight_hidden_output)
+
+    def create_mixed_weights(self, net1, net2):
+        self.weight_input_hidden = Nnet.get_mix_from_arrays(net1.weight_input_hidden, net2.weight_input_hidden)
+        self.weight_hidden_output = Nnet.get_mix_from_arrays(net1.weight_hidden_output, net2.weight_hidden_output)
+
+    def modify_array(a):
+        for x in np.nditer(a, op_flags= readwrite):
+            if random.random() < MUTATION_WEIGHT_MODIFY_CHANCE:
+                x = np.random.random_sample() - 0.5
+
+    def get_mix_from_arrays(ar1, ar2):
+        total_entries = ar1.size
+        num_rows = ar1.shape[0]
+        num_cols = ar1.shape[1]
+
+        num_to_take = total_entries - int(total_entries*MUTATION_ARRAY_MIX_PERC)
+        idx = np.random.choice(np.arange(total_entries), num_to_take, replace=  False)
+
+        print('idx', idx)
+
+        res = np.random.rand(num_rows, num_cols)
+
+        for row in range(0,num_rows):
+            for col in range(0, num_cols):
+                index = row * num_cols + col
+                if index in idx:
+                    res[row,col] = ar1[row,col]
+                else: 
+                    res[row,col] = ar2[row,col]
+        
+        return res
+
 # def tests():
 #     nnet = Nnet(2,5,1)
 #     print('weight_input_hidden', nnet.weight_input_hidden, sep= '\n')
@@ -37,5 +78,6 @@ class Nnet:
 #     output = nnet.get_max_value(inputs)
 #     print('output', output, sep = '\n')
 
+
 # if __name__ == "__main__":
-#     tests()
+    # tests()
