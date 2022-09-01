@@ -1,6 +1,3 @@
-from tkinter import FIRST, HORIZONTAL
-
-
 DISPLAY_W = 960
 DISPLAY_H = 540
 FPS = 30
