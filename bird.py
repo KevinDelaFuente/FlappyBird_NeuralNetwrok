@@ -150,9 +150,8 @@ class BirdCollection():
         new_birds.extend(good_birds)
 
         #Let's breed the good ones and add them to the new generation
-        birds_needed = len(self.birds) - len(new_birds)
 
-        while birds_needed > 0:
+        while len(new_birds) < len(self.birds):
             idx_to_breed = np.random.choice(np.arange(len(good_birds)), 2, replace=  False)
             if idx_to_breed[0] != idx_to_breed[1]:
                 new_bird = Bird.create_offspring(good_birds[idx_to_breed[0]], good_birds[idx_to_breed[1]], self.gameDisplay)
