@@ -52,8 +52,6 @@ class Nnet:
         num_to_take = total_entries - int(total_entries*MUTATION_ARRAY_MIX_PERC)
         idx = np.random.choice(np.arange(total_entries), num_to_take, replace=  False)
 
-        print('idx', idx)
-
         res = np.random.rand(num_rows, num_cols)
 
         for row in range(0,num_rows):
