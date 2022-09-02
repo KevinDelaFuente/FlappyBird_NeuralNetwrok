@@ -40,7 +40,7 @@ class Nnet:
         self.weight_hidden_output = Nnet.get_mix_from_arrays(net1.weight_hidden_output, net2.weight_hidden_output)
 
     def modify_array(a):
-        for x in np.nditer(a, op_flags= ['readwrite']):   
+        for x in np.nditer(a, op_flags=['readwrite']):   
             if random.random() < MUTATION_WEIGHT_MODIFY_CHANCE:
                 x[...] = np.random.random_sample() - 0.5
 
@@ -58,9 +58,9 @@ class Nnet:
             for col in range(0, num_cols):
                 index = row * num_cols + col
                 if index in idx:
-                    res[row,col] = ar1[row,col]
-                else: 
-                    res[row,col] = ar2[row,col]
+                    res[row][col] = ar1[row][col]
+                else:
+                    res[row][col] = ar2[row][col]
         
         return res
 
@@ -73,24 +73,24 @@ class Nnet:
 #     output = nnet.get_max_value(inputs)
 #     print('output', output, sep = '\n')
 
-def tests():
-    ar1 = np.random.uniform(-0.5, 0.5, size=(3, 4))
-    ar2 = np.random.uniform(-0.5, 0.5, size=(3, 4))
-    print('ar1.size', ar1.size, sep='\n')
-    print('original ar1:', ar1, sep='\n')
+# def tests():
+#     ar1 = np.random.uniform(-0.5, 0.5, size=(3, 4))
+#     ar2 = np.random.uniform(-0.5, 0.5, size=(3, 4))
+#     print('ar1.size', ar1.size, sep='\n')
+#     print('original ar1:', ar1, sep='\n')
 
-    Nnet.modify_array(ar1)
-    print('modified ar1:', ar1, sep='\n')
+#     Nnet.modify_array(ar1)
+#     print('modified ar1:', ar1, sep='\n')
 
-    print('')
+#     print('')
 
-    print('ar1', ar1, sep='\n')
-    print('ar2', ar2, sep='\n')
+#     print('ar1', ar1, sep='\n')
+#     print('ar2', ar2, sep='\n')
 
-    mixed = Nnet.get_mix_from_arrays(ar1, ar2)
-    print('mixed', mixed, sep='\n')
+#     mixed = Nnet.get_mix_from_arrays(ar1, ar2)
+#     print('mixed', mixed, sep='\n')
 
 
 
-if __name__ == "__main__":
-    tests()
+# if __name__ == "__main__":
+#     tests()
