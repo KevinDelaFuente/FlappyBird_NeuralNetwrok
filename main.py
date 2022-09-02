@@ -53,7 +53,7 @@ def run_game():
         pipes.update(dt)
         num_alive = birds.update(dt, pipes.pipes)
 
-        if num_alive == 0:
+        if num_alive == 0 or game_time >= 16000:
             pipes.create_new_set()
             game_time = 0
             birds.evolve_population()
